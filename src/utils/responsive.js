@@ -5,3 +5,5 @@ const breakpoints = {
   xl: "(min-width: 1280px)",
   "2xl": "(min-width: 1536px)",
 };
+
+export {breakpoints};

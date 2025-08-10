@@ -15,7 +15,7 @@ export default function Header({linksArr}) {
         <li key={headerLink.text}>
             <NavLink
                 to={headerLink.link}
-                className={({isActive}) => `${isActive ? 'text-cyan-600' : ''} text-lg sm:text-xl hover:underline hover:text-blue-600 transition-colors duration-200`}
+                className={({isActive}) => `${isActive ? 'text-cyan-800' : ''} text-lg sm:text-xl hover:underline hover:text-blue-600 transition-colors duration-200`}
             >
                 {headerLink.text}
             </NavLink>

@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import bgImg from '../assets/hero.png'
 import Header from "./Header";
 import { LoggedOutHeaderLinks } from '../data/headerLinks';
+import ToastBoard from "./ToastBoard";
 
 export default function AuthLayout() {
     return <>
@@ -11,6 +12,7 @@ export default function AuthLayout() {
                 style={{ backgroundImage: `url(${bgImg})` }}
             >
                 <Outlet />
+                <ToastBoard />
             </main>
         </div>
     </>

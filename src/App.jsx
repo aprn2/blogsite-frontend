@@ -1,12 +1,5 @@
-import { useState } from 'react'
 import './App.css'
-import Header from './components/Header'
-import Login from './components/Login'
-import Registration from './components/Registration'
-import UserPage from './components/UserPage'
 import PostPage from './components/PostPage'
-import AddPost from './components/AddPost'
-import SectionForm from './components/SectionForm'
 
 function App() {
 

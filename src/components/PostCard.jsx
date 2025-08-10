@@ -1,10 +1,9 @@
-import cover from '../assets/cover.jpg';
 import { FcLike } from "react-icons/fc";
 import { IoCalendarOutline } from "react-icons/io5";
 
 export default function PostCard({title, description, image, createdAt, likeCount, url}) {
     return <div className="flex gap-2 p-2 h-34 bg-stone-200 relative">
-        <img className="w-1/3 object-cover" alt="" src={cover}></img>
+        <img className="w-1/3 object-cover" alt="" src={image}></img>
         <div className='content-center flex flex-col justify-between'>
             <div>
                 <span className='font-bold text-xl'>{title}</span>

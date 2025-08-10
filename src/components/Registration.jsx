@@ -1,5 +1,4 @@
 import { useState } from "react"
-import bgImg from '../assets/hero.png'
 import { IoArrowBackSharp } from "react-icons/io5";
 import { Link } from "react-router";
 

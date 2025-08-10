@@ -6,7 +6,6 @@ const axiosClient = axios.create({
 });
 
 async function login(credentials) {
-    console.log(credentials)
     return await axiosClient.post('/auth/login', credentials);
 }
 

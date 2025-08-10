@@ -60,9 +60,18 @@ export default function Login() {
                 onClick={async (e) => {
                     e.preventDefault();
                     try{
-                        await login(formState);
+                        const res = await login(formState);
+                        console.log(res);
                     } catch(e) {
-                        console.log(e);
+                        console.log(e.status);
+                        if(e.status === 400) {
+                            let l = Math.random();
+
+                            l > 0.5 ?
+                            document.dispatchEvent(new CustomEvent('toast', {detail: {title: 'Bad data', description: 'supply data according to validation', type: 'error'}}))
+                            :
+                            document.dispatchEvent(new CustomEvent('toast', {detail: {title: 'randoem data', description: 'supply data according to validation', type: 'warning'}}));
+                        }
                     }
                 }}
             >

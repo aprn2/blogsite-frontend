@@ -6,10 +6,13 @@ import ToastBoard from "./ToastBoard";
 
 export default function AuthLayout() {
     return <>
-        <div>
+        <div
+            className='flex flex-col bg-center bg-cover min-h-[100vh]'
+            style={{ backgroundImage: `url(${bgImg})`}}
+        >
             <Header linksArr={LoggedOutHeaderLinks}/>
-            <main className="w-full min-h-[100vh] flex items-center justify-center py-10 bg-center bg-cover"
-                style={{ backgroundImage: `url(${bgImg})` }}
+            <main
+                className="flex-1 w-full h-full flex flex-col items-center justify-center"
             >
                 <Outlet />
                 <ToastBoard />

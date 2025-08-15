@@ -1,13 +1,19 @@
 import { useState } from "react"
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { login } from "../utils/apiCalls";
+import toast from "../utils/toast";
+
+import { LuEye } from "react-icons/lu";
+import { LuEyeClosed } from "react-icons/lu";
 
 export default function Login() {
+    const navigate = useNavigate();
     const [formState, setFormState] = useState({
-        userName: '',
-        password: '',
+        userName: 'testUser001',
+        password: 'Hello1!.',
         remember: false
     });
+    const [isEyeOpen, setIsEyeOpen] = useState(false);
 
     return <form className="text-white flex flex-col gap-2 p-4 sm:p-10 min-w-[80vw] sm:min-w-[500px] rounded-xl shadow-xl/40
         backdrop-blur-sm border-1 border-white"
@@ -27,19 +33,26 @@ export default function Login() {
                 onChange={(event) => setFormState({ ...formState, userName: event.target.value })}
             />
         </div>
-        <div className="flex justify-between gap-2">
+        <div className="relative flex justify-between gap-2">
             <label htmlFor="password"
                 className="text-gray-300"
             >
                 Password
             </label>
             <input
-                type="password"
+                type={isEyeOpen ? 'text' : 'password'}
                 id='password'
-                className="outline-1 outline-white font-semibold px-2 py-1  sm:w-auto rounded-sm focus:bg-cyan-600/50 focus:outline-2 transition-all duration-100"
+                className="outline-1 outline-white font-semibold px-2 py-1 sm:w-auto rounded-sm focus:bg-cyan-600/50 focus:outline-2 transition-all duration-100"
                 value={formState.password}
                 onChange={(event) => setFormState({ ...formState, password: event.target.value })}
             />
+            <button
+                type='button'
+                className="absolute right-2 text-md top-1"
+                onClick={() => setIsEyeOpen(! isEyeOpen)}
+            >
+                {isEyeOpen ? <LuEye /> : <LuEyeClosed />}
+            </button>
         </div>
         <div className="text-gray-300 flex items-center gap-1 self-start mt-6">
             <input
@@ -61,17 +74,10 @@ export default function Login() {
                     e.preventDefault();
                     try{
                         const res = await login(formState);
-                        console.log(res);
+                        toast('ok', 'super', 'neutral');
+                        navigate('/home');
                     } catch(e) {
-                        console.log(e.status);
-                        if(e.status === 400) {
-                            let l = Math.random();
-
-                            l > 0.5 ?
-                            document.dispatchEvent(new CustomEvent('toast', {detail: {title: 'Bad data', description: 'supply data according to validation', type: 'error'}}))
-                            :
-                            document.dispatchEvent(new CustomEvent('toast', {detail: {title: 'randoem data', description: 'supply data according to validation', type: 'warning'}}));
-                        }
+                        toast(e.name, e.message, 'error');
                     }
                 }}
             >

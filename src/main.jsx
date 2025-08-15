@@ -7,6 +7,7 @@ import Registration from './components/Registration.jsx';
 import AuthLayout from './components/AuthLayout.jsx';
 import LoggedInLayout from './components/LoggedInLayout.jsx';
 import PostPage from './components/PostPage.jsx';
+import PostLayout from './components/PostLayout.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -20,7 +21,12 @@ createRoot(document.getElementById('root')).render(
                     </Route>
                 </Route>
 
-                <Route path='/blogpost/:id' element={<LoggedInLayout />} >
+                <Route path='/home' element={<LoggedInLayout />} >
+                    <Route index element={<PostPage />}>
+                    </Route>
+                </Route>
+
+                <Route path='/blogpost/:id' element={<PostLayout />} >
                     <Route index element={<PostPage />}>
                     </Route>
                 </Route>

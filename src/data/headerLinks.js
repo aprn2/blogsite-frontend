@@ -14,12 +14,12 @@ const userheaderLinks = [
         text: 'Home'
     },
         {
-        link: '/kjklj',
-        text: 'lkjlkj'
+        link: '/favourites',
+        text: 'favourites'
     },
         {
-        link: '/lol',
-        text: 'Lol'
+        link: '/Account',
+        text: 'Account'
     }
 ];
 

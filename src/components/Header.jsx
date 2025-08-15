@@ -21,11 +21,14 @@ export default function Header({linksArr}) {
             </NavLink>
         </li>
     )
-    return <header className='w-full absolute top-0 z-20 backdrop-blur-md'>
+    return <header className='w-full sticky top-0 z-20 backdrop-blur-md'>
         <div
-            className=" container mx-auto flex px-3 justify-between sm:justify-between text-white h-12 items-center relative"
+            className=" container mx-auto flex px-3 justify-between sm:justify-between text-white h-14 items-center relative"
         >
-            <DiCodeigniter className='hover:text-red-500 text-2xl sm:text-3xl' />
+            <div className='flex text-2xl sm:text-3xl gap-2 font-bold uppercase'>
+                <DiCodeigniter className='hover:text-red-500' />
+                waste blogs
+            </div>
             {isDesktop ?
                 <nav className=''>
                     <ul className='flex justify-around gap-3 min-w-40'>

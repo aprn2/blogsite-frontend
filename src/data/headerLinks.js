@@ -8,19 +8,25 @@ const LoggedOutHeaderLinks = [
         text: 'Sign Up'
     }
 ];
-const userheaderLinks = [
+const userHeaderLinks = [
     {
         link: '/home',
         text: 'Home'
     },
-        {
-        link: '/favourites',
-        text: 'favourites'
+    {
+        link: '/Account',
+        text: 'Account'
+    }
+];
+const adminHeaderLinks = [
+    {
+        link: '/home',
+        text: 'Home'
     },
-        {
+    {
         link: '/Account',
         text: 'Account'
     }
 ];
 
-export { LoggedOutHeaderLinks, userheaderLinks};
+export { LoggedOutHeaderLinks, userHeaderLinks, adminHeaderLinks};

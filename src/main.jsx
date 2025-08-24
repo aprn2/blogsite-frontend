@@ -8,39 +8,46 @@ import AuthLayout from './components/AuthLayout.jsx';
 import LoggedInLayout from './components/LoggedInLayout.jsx';
 import PostPage from './components/PostPage.jsx';
 import PostLayout from './components/PostLayout.jsx';
+import AddPost from './components/AddPost.jsx';
+import { AppStateProvider } from './components/AppContext.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-        <BrowserRouter>
-            <Routes>
-
-                <Route path='/auth' element={<AuthLayout />} >
-                    <Route index path='login' element={<Login />}>
+    <StrictMode>
+        <AppStateProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/auth' element={<AuthLayout />} >
+                        <Route index path='login' element={<Login />}>
+                        </Route>
+                        <Route path='register' element={<Registration />} >
+                        </Route>
                     </Route>
-                    <Route path='register' element={<Registration />} >
-                    </Route>
-                </Route>
 
-                <Route path='/home' element={<LoggedInLayout />} >
-                    <Route index element={<PostPage />}>
+                    <Route path='/home' element={<LoggedInLayout />} >
+                        <Route index element={<PostPage />}>
+                        </Route>
                     </Route>
-                </Route>
 
-                <Route path='/blogpost/:id' element={<PostLayout />} >
-                    <Route index element={<PostPage />}>
+                    <Route path='/blogpost/:id' element={<PostLayout />} >
+                        <Route index element={<PostPage />}>
+                        </Route>
                     </Route>
-                </Route>
-                <Route path='/user/:id' element={<LoggedInLayout />} >
-                    <Route index element={<PostPage />}>
+
+                    <Route path='/addpost' element={<AddPost />} >
                     </Route>
-                </Route>
 
-                {// Not found Route
-                }
-                <Route path='*' element={<h1>Not found Bro</h1>} >
-                </Route>
+                    <Route path='/user/:id' element={<LoggedInLayout />} >
+                        <Route index element={<PostPage />}>
+                        </Route>
+                    </Route>
 
-            </Routes>
-        </BrowserRouter>
-  </StrictMode>,
+                    {// Not found Route
+                    }
+                    <Route path='*' element={<h1>Not found Bro</h1>} >
+                    </Route>
+
+                </Routes>
+            </BrowserRouter>
+        </AppStateProvider>
+    </StrictMode>,
 )

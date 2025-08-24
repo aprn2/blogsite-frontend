@@ -4,24 +4,26 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { DiCodeigniter } from "react-icons/di";
 import { IoCloseSharp } from "react-icons/io5";
 import { NavLink } from 'react-router';
+import HeaderProfile from './HeaderProfile';
 
-export default function Header({linksArr}) {
+export default function Header({linksArr, profile}) {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const isDesktop = useMediaQuery({
         query: '(min-width: 1224px)'
     })
 
     const links = linksArr.map((headerLink) =>
-        <li key={headerLink.text}>
+        <li key={headerLink.text} >
             <NavLink
                 to={headerLink.link}
-                className={({isActive}) => `${isActive ? 'text-cyan-800' : ''} text-lg sm:text-xl hover:underline hover:text-blue-600 transition-colors duration-200`}
+                className={({isActive}) => `${isActive ? 'text-cyan-800' : ''} hover:underline hover:text-blue-600 transition-colors duration-200`}
             >
                 {headerLink.text}
             </NavLink>
         </li>
     )
-    return <header className='w-full sticky top-0 z-20 backdrop-blur-md'>
+    links.push(<HeaderProfile key='profile-blabla' />);
+    return <header className='bg-white/8 shadow-md/20 w-full sticky top-0 z-20 backdrop-blur-sm'>
         <div
             className=" container mx-auto flex px-3 justify-between sm:justify-between text-white h-14 items-center relative"
         >
@@ -31,7 +33,7 @@ export default function Header({linksArr}) {
             </div>
             {isDesktop ?
                 <nav className=''>
-                    <ul className='flex justify-around gap-3 min-w-40'>
+                    <ul className='text-lg sm:text-xl flex justify-around gap-3 min-w-40'>
                         {links}
                     </ul>
                 </nav>
@@ -45,10 +47,10 @@ export default function Header({linksArr}) {
         </div>
         {!isDesktop && drawerOpen &&
             <nav className='bg-blue-200 py-2'>
-                <ul className='w-full flex flex-col justify-around gap-2'>
+                <ul className='text-lg sm:text-xl w-full flex flex-col justify-around gap-2'>
                     { linksArr.map((headerLink) =>
                         <>
-                            <hr />
+                            <hr key={headerLink.text}/>
                             <li
                                 key={headerLink.text}
                                 className='text-center w-full'

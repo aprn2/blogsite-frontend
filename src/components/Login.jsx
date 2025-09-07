@@ -31,6 +31,7 @@ export default function Login() {
                 appState.setUserId(res.id);
                 appState.setUserName(res.userName);
                 navigate('/home');
+                toast({title: 'Logged In', type: 'neutral'});
             } catch(e) {
                 toast({title: e.name, description: e.message, type: 'error'});
             }
@@ -57,7 +58,7 @@ export default function Login() {
                             type="text"
                             id='username'
                             className="outline-1 outline-white font-semibold px-2 py-1 sm:w-auto rounded-sm focus:bg-cyan-600/50 focus:outline-2 transition-all duration-100"
-                            autocomplete='username'
+                            autoComplete='username'
                         />
                         <FormErrorMessage name='userName' />
                     </div>
@@ -76,7 +77,7 @@ export default function Login() {
                             type={isEyeOpen ? 'text' : 'password'}
                             id='password'
                             className="outline-1 outline-white font-semibold px-2 py-1 sm:w-auto rounded-sm focus:bg-cyan-600/50 focus:outline-2 transition-all duration-100"
-                            autocomplete='current-password'
+                            autoComplete='current-password'
                         />
                         <button
                             type='button'

@@ -9,6 +9,7 @@ import LoggedInLayout from './components/LoggedInLayout.jsx';
 import PostPage from './components/PostPage.jsx';
 import PostLayout from './components/PostLayout.jsx';
 import AddPost from './components/AddPost.jsx';
+import ToastBoard from './components/ToastBoard.jsx';
 import { AppStateProvider } from './components/AppContext.jsx';
 
 createRoot(document.getElementById('root')).render(
@@ -41,13 +42,15 @@ createRoot(document.getElementById('root')).render(
                         </Route>
                     </Route>
 
-                    {// Not found Route
+                    {
+                        // Not found Route
                     }
                     <Route path='*' element={<h1>Not found Bro</h1>} >
                     </Route>
 
                 </Routes>
             </BrowserRouter>
+            <ToastBoard />
         </AppStateProvider>
     </StrictMode>,
 )

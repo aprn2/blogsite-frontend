@@ -21,10 +21,9 @@ export default function PostPage() {
     })
 
     useEffect(() => {
-        fetch('/public/post1.md')
+        fetch('/post1.md')
             .then(res => res.text())
             .then(content => setmd(content))
-            .catch(() => alert('aiyaooo'))
     }, []);
 
     const {html, headings} = useMemo(() => {

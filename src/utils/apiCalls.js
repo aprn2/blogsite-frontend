@@ -14,6 +14,17 @@ async function login(credentials) {
         throwApproprietError(e);
     }
 }
+
+async function userNameAvailable(userName) {
+    let res;
+    try{
+        res = await axiosClient.get('/user/'+ userName);
+        return false;
+    }catch(e) {
+        return true;
+    }
+}
+
 async function signUp(userData) {
     let res;
     try{
@@ -39,4 +50,4 @@ function throwApproprietError(e) {
     }
 }
 
-export {login, signUp};
+export {login, signUp, userNameAvailable};

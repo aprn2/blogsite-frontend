@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { userNameAvailable } from './apiCalls';
 
 const loginDataValidator = Yup.object().shape({
     userName: Yup.string()
@@ -56,7 +57,15 @@ const createUserValidator = Yup.object().shape({
     .matches(/^[a-zA-Z0-9]+$/, 'username must be alphanumeric')
     .required('username is required')
     .min(5, 'username should contain at least 5 characters')
-    .max(20, 'username should not exceed 20 characters'),
+    .max(20, 'username should not exceed 20 characters')
+    .test(
+        'username available test',
+        'userName already taken',
+        async(userName) => {
+            return await userNameAvailable(userName);
+        }
+
+    ),
 
     password: passwordComplexity,
 

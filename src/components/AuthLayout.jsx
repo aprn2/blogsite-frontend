@@ -15,7 +15,6 @@ export default function AuthLayout() {
                 className="flex-1 w-full h-full flex flex-col items-center justify-center"
             >
                 <Outlet />
-                <ToastBoard />
             </main>
         </div>
     </>

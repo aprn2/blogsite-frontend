@@ -1,71 +1,17 @@
-import { useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
-import { GiHamburgerMenu } from "react-icons/gi";
 import { DiCodeigniter } from "react-icons/di";
-import { IoCloseSharp } from "react-icons/io5";
-import { NavLink } from 'react-router';
-import HeaderProfile from './HeaderProfile';
+import HeaderNav from './HeaderNav';
 
-export default function Header({linksArr, profile}) {
-    const [drawerOpen, setDrawerOpen] = useState(false);
-    const isDesktop = useMediaQuery({
-        query: '(min-width: 1224px)'
-    })
+export default function Header() {
 
-    const links = linksArr.map((headerLink) =>
-        <li key={headerLink.text} >
-            <NavLink
-                to={headerLink.link}
-                className={({isActive}) => `${isActive ? 'text-cyan-800' : ''} hover:underline hover:text-blue-600 transition-colors duration-200`}
-            >
-                {headerLink.text}
-            </NavLink>
-        </li>
-    )
-    links.push(<HeaderProfile key='profile-blabla' />);
     return <header className='bg-white/8 shadow-md/20 w-full sticky top-0 z-20 backdrop-blur-sm'>
         <div
-            className=" container mx-auto flex px-3 justify-between sm:justify-between text-white h-14 items-center relative"
+            className="container mx-auto flex px-3 justify-between sm:justify-between text-white h-14 items-center relative"
         >
             <div className='flex text-2xl sm:text-3xl gap-2 font-bold uppercase'>
                 <DiCodeigniter className='hover:text-red-500' />
                 waste blogs
             </div>
-            {isDesktop ?
-                <nav className=''>
-                    <ul className='text-lg sm:text-xl flex justify-around gap-3 min-w-40'>
-                        {links}
-                    </ul>
-                </nav>
-                : <button onClick={() => setDrawerOpen(!drawerOpen)}>
-                    {drawerOpen
-                        ? <IoCloseSharp className='text-2xl sm:text-3xl hover:text-red-500' />
-                        : <GiHamburgerMenu className='text-2xl sm:text-3xl hover:text-red-500' />
-                    }
-                </button>
-            }
+            <HeaderNav />
         </div>
-        {!isDesktop && drawerOpen &&
-            <nav className='bg-blue-200 py-2'>
-                <ul className='text-lg sm:text-xl w-full flex flex-col justify-around gap-2'>
-                    { linksArr.map((headerLink) =>
-                        <>
-                            <hr key={headerLink.text}/>
-                            <li
-                                key={headerLink.text}
-                                className='text-center w-full'
-                            >
-                                <NavLink
-                                    to={headerLink.link}
-                                    className='text-lg sm:text-xl hover:underline hover:text-blue-100 transition-colors duration-200'
-                                >
-                                    {headerLink.text}
-                                </NavLink>
-                            </li>
-                        </>
-                    )}
-                </ul>
-            </nav>
-        }
     </header>
 }

@@ -38,7 +38,7 @@ export default function Login() {
         }
         }
     > 
-        {({isSubmitting, setFieldValue, resetForm}) => (
+        {({isSubmitting, resetForm}) => (
             <Form className="text-white flex flex-col gap-2 p-4 sm:p-10 min-w-[80vw] sm:min-w-[500px] rounded-xl shadow-xl/40
                 backdrop-blur-sm border-1 border-white"
                 autoComplete="on"

@@ -1,12 +1,9 @@
-import { Outlet, useNavigate } from "react-router";
+import { Outlet } from "react-router";
 import Header from "./Header";
-import { useAppContext } from "./AppContext";
+import { userHeaderLinks } from "../data/headerLinks";
 
 export default function PostLayout() {
-    const appState = useAppContext();
-    const navigate = useNavigate()
 
-    if (!appState.userId) console.log(appState);
     return <>
         <div
             className='text-indigo-200 bg-gray-900 flex flex-col bg-center bg-cover min-h-screen'

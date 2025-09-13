@@ -11,46 +11,55 @@ import PostLayout from './components/PostLayout.jsx';
 import AddPost from './components/AddPost.jsx';
 import ToastBoard from './components/ToastBoard.jsx';
 import { AppStateProvider } from './components/AppContext.jsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Home } from './components/Home.jsx';
+import { HomeLayout } from './components/HomeLayout.jsx';
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <AppStateProvider>
-            <BrowserRouter>
-                <Routes>
-                    <Route path='/auth' element={<AuthLayout />} >
-                        <Route index path='login' element={<Login />}>
+        <QueryClientProvider client={queryClient}>
+            <AppStateProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path='/auth' element={<AuthLayout />} >
+                            <Route index path='login' element={<Login />}>
+                            </Route>
+                            <Route path='register' element={<Registration />} >
+                            </Route>
                         </Route>
-                        <Route path='register' element={<Registration />} >
+
+                        <Route path='/home' element={<HomeLayout />} >
+                            <Route index element={<Home />}>
+                            </Route>
                         </Route>
-                    </Route>
 
-                    <Route path='/home' element={<LoggedInLayout />} >
-                        <Route index element={<PostPage />}>
+                        <Route path='/blogpost/:id' element={<PostLayout />} >
+                            <Route index element={<PostPage />}>
+                            </Route>
                         </Route>
-                    </Route>
 
-                    <Route path='/blogpost/:id' element={<PostLayout />} >
-                        <Route index element={<PostPage />}>
+                        <Route path='/addpost' element={<AddPost />} >
                         </Route>
-                    </Route>
 
-                    <Route path='/addpost' element={<AddPost />} >
-                    </Route>
-
-                    <Route path='/user/:id' element={<LoggedInLayout />} >
-                        <Route index element={<PostPage />}>
+                        <Route path='/user/:id' element={<LoggedInLayout />} >
+                            <Route index element={<PostPage />}>
+                            </Route>
                         </Route>
-                    </Route>
 
-                    {
-                        // Not found Route
-                    }
-                    <Route path='*' element={<h1>Not found Bro</h1>} >
-                    </Route>
+                        {
+                            // Not found Route
+                        }
+                        <Route path='*' element={<h1>Not found Bro</h1>} >
+                        </Route>
 
-                </Routes>
-            </BrowserRouter>
-            <ToastBoard />
-        </AppStateProvider>
+                    </Routes>
+                </BrowserRouter>
+                <ToastBoard />
+            </AppStateProvider>
+            <ReactQueryDevtools />
+        </QueryClientProvider>
     </StrictMode>,
 )

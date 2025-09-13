@@ -83,7 +83,7 @@ export default function Registration() {
                     type="text"
                     id='username'
                     className="outline-1 outline-white font-semibold px-2 py-1 rounded-sm focus:bg-cyan-600/50 focus:outline-2 transition-all duration-100"
-                    autocomplete='new-user'
+                    autoComplete='new-user'
                 />
                 <FormErrorMessage name='userName' />
             </div>
@@ -102,7 +102,7 @@ export default function Registration() {
                     type="password"
                     id='password'
                     className="outline-1 outline-white font-semibold px-2 py-1 rounded-sm focus:bg-cyan-600/50 focus:outline-2 transition-all duration-100"
-                    autocomplete='new-password'
+                    autoComplete='new-password'
                 />
                 <FormErrorMessage name='password' />
             </div>
@@ -121,7 +121,7 @@ export default function Registration() {
                     type="confirmPassword"
                     id='confirmPassword'
                     className="outline-1 outline-white font-semibold px-2 py-1 rounded-sm focus:bg-cyan-600/50 focus:outline-2 transition-all duration-100"
-                    autocomplete='new-password'
+                    autoComplete='new-password'
                 />
                 <FormErrorMessage name='confirmPassword' />
             </div>
@@ -158,7 +158,7 @@ export default function Registration() {
             delete userDate.confirmPassword;
             try{
                 const res = await signUp(userDate);
-                toast({title: 'sucksucks', description: 'user created', type: 'neutral'});
+                toast({title: 'success', description: 'user created', type: 'neutral'});
                 navigate('/auth/login');
             }catch(e) {
                 toast({title: e.name, description: e.message, type: 'error'});

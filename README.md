@@ -1,12 +1,57 @@
-# React + Vite
+# Heehe Blogs
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Heehe Blogs** is a simple blog website developed using **React.js** and powered by **Vite**. It is a user and admin-based web application.
 
-Currently, two official plugins are available:
+- **Admin** can add and edit blog posts written in **Markdown** format.
+- **Users** can view and like blog posts.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tech Stack and Libraries Used
 
-## Expanding the ESLint configuration
+This project makes use of the following libraries:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `react-query`
+- `dayjs`
+- `radix-primitive`
+- `axios`
+- `formik`
+- `yup`
+- `marked`
+- `tailwindcss`
+- `framer-motion`
+- `@uiw/react-md-editor`
+
+## 🚀 Getting Started
+
+To get this project:
+
+```bash
+git clone https://github.com/aprn2/blogsite-frontend.git
+```
+
+then cd into the cloned repo directory and run following commands:
+
+```bash
+cd blogsite-frontend
+```
+
+```bash
+npm install
+```
+
+## To run this project or to develop:
+
+start the dev mode by executing this command:
+
+```bash
+npm run dev
+```
+
+## To build this project:
+
+execute this command:
+
+```bash
+npm run build
+```
+
+now you can serve the contents of `/build` using a web server of your choise.

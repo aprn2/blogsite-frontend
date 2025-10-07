@@ -6,7 +6,7 @@ let accessToken = '';
 
 if(isSheduledLogout.get()) {
     try {
-        await logout();
+        logout();
         isSheduledLogout.set(false);
     }catch(e) {
     }

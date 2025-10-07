@@ -46,6 +46,8 @@ start the dev mode by executing this command:
 npm run dev
 ```
 
+then visit the url `http://localhost:5173`, Hoooot module replacement heheeheheh
+
 ## To build this project:
 
 execute this command:

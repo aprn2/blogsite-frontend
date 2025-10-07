@@ -55,3 +55,8 @@ npm run build
 ```
 
 now you can serve the contents of `/dist` using a web server of your choise.
+
+---
+
+![choli mudinchi](./public/choli-mudinchi.gif)
+

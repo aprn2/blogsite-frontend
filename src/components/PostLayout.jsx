@@ -1,8 +1,19 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import Header from "./Header";
 import { userHeaderLinks } from "../data/headerLinks";
+import { useAppContext } from "./AppContext";
+import { useEffect } from "react";
 
 export default function PostLayout() {
+
+    const appState = useAppContext();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(! appState.userId) {
+            navigate('/')
+        }
+    });
 
     return <>
         <div

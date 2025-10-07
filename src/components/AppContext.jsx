@@ -1,13 +1,17 @@
 import { useContext, createContext, useState } from "react";
+import { userCxtStore } from "../utils/store";
 
+const user = userCxtStore.get();
 const AppContext = createContext();
 
 function AppStateProvider({children}) {
 
     const [token, setToken] = useState(null);
-    const [userName, setUserName] = useState('');
-    const [isAdmin, setIsAdmin] = useState(null);
-    const [userId, setUserId] = useState(null);
+    const [userName, setUserName] = useState(user?.userName);
+    const [isAdmin, setIsAdmin] = useState(user?.isAdmin);
+    const [userId, setUserId] = useState(user?.userId);
+    const [email, setEmail] = useState(user?.email);
+    const [dob, setDob] = useState(user?.dob);
 
     return <AppContext.Provider
         value={{
@@ -18,7 +22,11 @@ function AppStateProvider({children}) {
             userId,
             setUserId,
             isAdmin,
-            setIsAdmin
+            setIsAdmin,
+            email,
+            setEmail,
+            dob,
+            setDob
         }}
     > 
         {children}
@@ -33,6 +41,7 @@ function AppStateProvider({children}) {
  * @property {() => void} setUserName - change userName
  * @property {string} userId - id
  * @property {() => void} setUserId - change usedId
+ * @property {() => void} setIsAdmin - if the user is an admin
  * @property {boolean} isAdmin - if the user is an admin
 */
 

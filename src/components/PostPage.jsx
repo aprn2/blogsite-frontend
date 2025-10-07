@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { marked } from "marked";
 import { useMediaQuery } from "react-responsive";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { getPostById } from "../utils/apiCalls";
+import { getImage, getPostById } from "../utils/apiCalls";
 import toast from "../utils/toast";
+import dayjs from "../utils/dayjsUtils";
+import LikeButton  from "./LikeButton";
+import { useAppContext } from "./AppContext";
 
 const renderer = new marked.Renderer();
 
@@ -13,13 +16,24 @@ const IndexClickHandler = (event) => {
     const targetHeadingId = event.target.name;
     const heading = document.querySelector(targetHeadingId);
     const yPos = heading.getBoundingClientRect().top;
-    console.log(yPos);
     window.scrollTo({top: yPos - 80, behavior: 'smooth'})
 }
 
 export default function PostPage() {
 
+    const appState = useAppContext();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(! appState.userId) {
+            navigate('/auth')
+        }
+    });
+
     const { id } = useParams();
+
+    const [imgs, setImgs] = useState([]);
+    const [imgsL, setImgsL] = useState(new Map());
 
     const isDesktop = useMediaQuery({
         query: '(min-width: 1224px)'
@@ -30,23 +44,47 @@ export default function PostPage() {
         queryFn: () => getPostById(id)
     });
 
-    const {html, headings} = useMemo(() => {
-        if(isLoading) return {html: null, headings: null};
-        const headings = [];
-        renderer.heading = ({text, depth}) => {
-            const headingId = 'link' + crypto.randomUUID();
-            headings.push({text: text, anchor: headingId});
-            return `<h${depth} id='${headingId}'>${text}</h${depth}>`
+    useEffect(() => {
+        for(let img of imgs) {
+            if(imgsL.has(img)) {
+                continue;
+            }
+            getImage(img)
+                .then(url => setImgsL(pre => {
+                    const map = new Map(pre);
+                    return map.set(img, url)
+                }))
+                .catch(e => e)
         }
-        const html =  marked.parse(md.body, {renderer});
-        return {html, headings};
-    }, [md]);
+    },[imgs]);
 
     useEffect(() => {
         if(error) {
             toast({title: 'Error', description: 'Cant get post content', type: 'error'});
         }
     }, [error]);
+
+    const {html, headings} = useMemo(() => {
+        const headings = [];
+        let html = '';
+        if(md) {
+            renderer.heading = ({text, depth}) => {
+                const headingId = 'link' + crypto.randomUUID();
+                headings.push({text: text, anchor: headingId});
+                return `<h${depth} id='${headingId}'>${text}</h${depth}>`
+            }
+            let imagesId = [];
+            renderer.image = ({href, title, text}) => {
+                const source = href.split('/')
+                const fileId = source[source.length - 1]; 
+                imagesId.push(fileId);
+                return `<img src='${imgsL.get(fileId) ?? ''}' alt='${text ?? ''}' title='${title ?? ''}'> </img>`
+            }
+            setImgs(imagesId);
+            html =  marked.parse(md.body, {renderer});
+        }
+        return {html, headings};
+    }, [md, imgsL]);
 
     let content;
 
@@ -55,15 +93,16 @@ export default function PostPage() {
     }else if(error) {
         content = <div>something went wrong bro...</div>
     }else {
+
         const quickNav = isDesktop ? <aside
-            className='w-80 pl-10 text-xl pt-10'
+            className='w-100 pl-10 text-xl pt-10'
         >
             <nav>
                 <ol
                     className='flex flex-col gap-2'
                 >
-                    {headings.map((heading) => <li>
-                        <a className="cursor-pointer hover:text-red-500"
+                    {headings.map((heading) => <li key={heading.anchor}>
+                        <a className="text-sm cursor-pointer hover:text-red-500"
                             href={`#${heading.anchor}`}
                             name={`#${heading.anchor}`}
                             onClick={IndexClickHandler}
@@ -76,13 +115,19 @@ export default function PostPage() {
         </aside> : <></>
 
         const section = <section
-            className='mt-10 text-3xl capitalize flex-grow-1'
+            className='mt-10 capitalize flex-grow-1'
         > 
             <div
-                className='py-4 mb-2'
+                className='font-bold py-1 text-5xl'
             >
                 {md.title}
             </div>
+            <div
+                className='text-lg my-2'
+            >
+                {dayjs(md.createdAt).fromNow()}
+            </div>
+            <LikeButton />
             <hr />
             <div
                 className='max-w-none dark:prose-invert prose-neutral prose lg:prose-xl flex-1 pt-10'

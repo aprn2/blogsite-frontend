@@ -87,5 +87,36 @@ const createUserValidator = Yup.object().shape({
 
 });
 
+const createPostValidator = Yup.object().shape({
+    title: Yup.string()
+    .required('title is required')
+    .min(3, 'title should contain at least 3 characters')
+    .max(50, 'title should not exceed 50 characters'),
 
-export {loginDataValidator, createUserValidator};
+    description: Yup.string()
+    .required('description is required')
+    .min(3, 'description should contain at least 5 characters')
+    .max(100, 'description should not exceed 100 characters'),
+
+    coverImage: Yup.string()
+    .required('cover image is must'),
+
+    tags: Yup.array()
+    .of(Yup.string()
+        .required('tag must not be empty')
+    ).required('post should atleast has one tag') ,
+
+    body: Yup.string()
+    .min(3, 'post must contain atleast 3 characters')
+    .required('post content is required')
+
+});
+
+export const editPostValidator = Yup.object().shape({
+    body: Yup.string()
+    .min(3, 'post must contain atleast 3 characters')
+    .required('post content is required')
+})
+
+
+export {loginDataValidator, createUserValidator, createPostValidator};

@@ -1,10 +1,10 @@
 const LoggedOutHeaderLinks = [
     {
-        link: '/auth/login',
+        link: '/login',
         text: 'Login'
     },
         {
-        link: '/auth/register',
+        link: '/register',
         text: 'Sign Up'
     }
 ];
@@ -14,7 +14,11 @@ const userHeaderLinks = [
         text: 'Home'
     },
     {
-        link: '/Account',
+        link: '/liked',
+        text: 'Liked'
+    },
+    {
+        link: '/me',
         text: 'Account'
     }
 ];
@@ -24,7 +28,15 @@ const adminHeaderLinks = [
         text: 'Home'
     },
     {
-        link: '/Account',
+        link: '/admin/add-post',
+        text: 'Add Post'
+    },
+    {
+        link: '/liked',
+        text: 'Liked'
+    },
+    {
+        link: '/me',
         text: 'Account'
     }
 ];

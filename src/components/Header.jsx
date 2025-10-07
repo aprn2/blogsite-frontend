@@ -1,7 +1,11 @@
 import { DiCodeigniter } from "react-icons/di";
 import HeaderNav from './HeaderNav';
+import HeaderProfile from './HeaderProfile';
+import { useAppContext } from "./AppContext";
 
 export default function Header() {
+
+    const appState = useAppContext();
 
     return <header className='bg-white/8 shadow-md/20 w-full sticky top-0 z-20 backdrop-blur-sm'>
         <div
@@ -9,9 +13,14 @@ export default function Header() {
         >
             <div className='flex text-2xl sm:text-3xl gap-2 font-bold uppercase'>
                 <DiCodeigniter className='hover:text-red-500' />
-                waste blogs
+                heehe blogs
             </div>
-            <HeaderNav />
+            <div className="flex gap-10">
+                <HeaderNav />
+                {
+                    appState.userId && <HeaderProfile />
+                }
+            </div>
         </div>
     </header>
 }

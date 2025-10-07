@@ -4,11 +4,12 @@ import { loginDataValidator } from "../utils/validators";
 import { Link, useNavigate } from "react-router";
 import { login } from "../utils/apiCalls";
 import toast from "../utils/toast";
-import { useAppContext } from "./AppContext";
 
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
 import FormErrorMessage from "./FormErrorMessage";
+import { userCxtStore } from "../utils/store";
+import { useAppContext } from "./AppContext";
 
 export default function Login() {
 
@@ -25,11 +26,17 @@ export default function Login() {
         validationSchema={loginDataValidator}
         onSubmit={async (value, action) => {
             try{
-                const res = await login(value);
-                appState.setIsAdmin(res.admin);
-                appState.setToken(res.token);
-                appState.setUserId(res.id);
-                appState.setUserName(res.userName);
+                const user = await login(value);
+                userCxtStore.set({
+                    userId: user.id,
+                    userName: user.userName,
+                    isAdmin: user.admin,
+                    email: user.email,
+                    dob: user.dob
+                });
+                appState.setUserId(user.id);
+                appState.setUserName(user.userName);
+                appState.setIsAdmin(user.admin);
                 navigate('/home');
                 toast({title: 'Logged In', type: 'neutral'});
             } catch(e) {

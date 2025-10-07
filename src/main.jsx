@@ -8,13 +8,17 @@ import AuthLayout from './components/AuthLayout.jsx';
 import LoggedInLayout from './components/LoggedInLayout.jsx';
 import PostPage from './components/PostPage.jsx';
 import PostLayout from './components/PostLayout.jsx';
-import AddPost from './components/AddPost.jsx';
 import ToastBoard from './components/ToastBoard.jsx';
 import { AppStateProvider } from './components/AppContext.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Home } from './components/Home.jsx';
 import { HomeLayout } from './components/HomeLayout.jsx';
+import { AdminLayout } from './components/AdminLayout.jsx';
+import { AddPost } from './components/AddPost.jsx';
+import { EditPost } from './components/EditPost.jsx';
+import UserPage from './components/UserPage.jsx';
+import { Liked } from './components/Liked.jsx';
 
 const queryClient = new QueryClient();
 
@@ -24,36 +28,48 @@ createRoot(document.getElementById('root')).render(
             <AppStateProvider>
                 <BrowserRouter>
                     <Routes>
-                        <Route path='/auth' element={<AuthLayout />} >
-                            <Route index path='login' element={<Login />}>
-                            </Route>
-                            <Route path='register' element={<Registration />} >
-                            </Route>
+                        <Route path='/' element={<AuthLayout />} >
+                            <Route index element={<Login />} />
+                            <Route path='login' element={<Login />} />
+                            <Route path='register' element={<Registration />} />
                         </Route>
 
                         <Route path='/home' element={<HomeLayout />} >
-                            <Route index element={<Home />}>
-                            </Route>
+                            <Route index element={<Home />} />
+                        </Route>
+
+                        <Route path='/liked' element={<HomeLayout />} >
+                            <Route index element={<Liked />} />
+                        </Route>
+
+                        <Route path='/me' element={<LoggedInLayout />} >
+                            <Route index element={<UserPage/>} />
                         </Route>
 
                         <Route path='/blogpost/:id' element={<PostLayout />} >
-                            <Route index element={<PostPage />}>
-                            </Route>
+                            <Route index element={<PostPage />} />
                         </Route>
 
-                        <Route path='/addpost' element={<AddPost />} >
-                        </Route>
-
-                        <Route path='/user/:id' element={<LoggedInLayout />} >
-                            <Route index element={<PostPage />}>
-                            </Route>
-                        </Route>
+                        <Route path='/addpost' element={<AddPost />} />
 
                         {
-                            // Not found Route
+                        //<Route path='/user/:id' element={<LoggedInLayout />} >
+                        //    <Route index element={<PostPage />} />
+                        //</Route>
                         }
-                        <Route path='*' element={<h1>Not found Bro</h1>} >
+
+                        {
+                        // Admin only Route
+                        }
+                        <Route path='/admin' element={<AdminLayout />} >
+                            <Route index element={<EditPost />} />
+                            <Route path='add-post' element={<AddPost />} />
+                            <Route path='edit-post/:id' element={<EditPost key='edit' />} />
                         </Route>
+                        {
+                        // All Non Exsisting Routes
+                        }
+                        <Route path='*' element={<h1>Not found Bro</h1>} />
 
                     </Routes>
                 </BrowserRouter>

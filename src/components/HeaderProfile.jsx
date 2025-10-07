@@ -2,6 +2,8 @@ import { CgProfile } from "react-icons/cg";
 import { GrLogout } from "react-icons/gr";
 import * as Popover from "@radix-ui/react-popover";
 import { useAppContext } from "./AppContext";
+import { isSheduledLogout, userCxtStore } from "../utils/store";
+import { logout } from "../utils/apiCalls";
 
 export default function HeaderProfile() {
     const appState = useAppContext();
@@ -11,7 +13,7 @@ export default function HeaderProfile() {
             className="flex items-center gap-2 justify-between"
         >
             <CgProfile
-                className='text-inherit w-full h-full'
+                className='text-3xl'
             />
         </Popover.Trigger>
         <Popover.Portal>
@@ -21,9 +23,23 @@ export default function HeaderProfile() {
             >
                 <div className="flex flex-col gap-2 items-center border border-white/30 p-3 rounded-sm">
                     <span>Logged in as</span>
-                    <span>{appState.userName || 'lollll'}</span>
+                    <span>{appState.userName}</span>
                 </div>
-                <button class="flex gap-2 items-center text-red-400 hover:text-red-500">
+                <button className="flex gap-2 items-center text-red-400 hover:text-red-500"
+                    onClick={async() => {
+                        try {
+                            await logout();
+                        }catch(e) {
+                            isSheduledLogout.set(true);
+                        }finally {
+                            userCxtStore.set(undefined);
+                            appState.setUserId(undefined);
+                            appState.setIsAdmin(undefined);
+                            appState.setUserName(undefined);
+                            appState.token(undefined);
+                        }
+                    }}
+                >
                     <GrLogout />
                     <span>Log out</span>
                 </button>

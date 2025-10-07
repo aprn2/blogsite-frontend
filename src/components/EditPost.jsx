@@ -1,63 +1,57 @@
 import MDEditor from "@uiw/react-md-editor"
 import { useEffect, useState } from "react"
-import { createImage, createPost } from "../utils/apiCalls";
+import { createImage, createPost, editPost, getPostById } from "../utils/apiCalls";
 import { FileField } from "./FileField";
 import { CgSpinner } from "react-icons/cg";
 import { MdOutlineErrorOutline, MdOutlineDownloadDone } from "react-icons/md";
-import { createPostValidator } from "../utils/validators";
+import { editPostValidator } from "../utils/validators";
 import toast from "../utils/toast";
 import { useFormik } from "formik";
+import { useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 
-export const AddPost = () => {
+export const EditPost = () => {
     
-    const [coverImageF, setCoverImageF] = useState(null); // has {url, file}
     const [extraImagesF, setExtraImagesF] = useState([]); // same
-    const [coverImage, setCoverImage] = useState(null); // has {url, file}
     const [extraImages, setExtraImages] = useState([]); // same
+
+    const { id } = useParams();
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['postContent', id],
+        queryFn: () => getPostById(id),
+        refetchOnWindowFocus: false
+    });
 
     const formik = useFormik({
         initialValues:{
-            title: '',
-            description: '',
-            coverImage: null,
-            tags: ['all'],
             body: ''
         },
-        validationSchema:createPostValidator,
+        validationSchema: editPostValidator,
         onSubmit: async (val) => {
             try{
-                await createPost(val);
-                toast({title: 'Post created', description: 'done'});
-                formik.resetForm();
+                const res = await editPost(id, val);
+                toast({title: 'Post updated', description: 'done'});
             }catch(e) {
-                toast({title: 'Post not created', description: e.message, type: 'error'});
+                console.log(e);
+                toast({title: 'Post not updated', description: e.message, type: 'error'});
             }
-        }
+        },
     });
 
     useEffect(() => {
-        if(coverImageF === null) {
-            return;
+        if(error) {
+            formik.setFieldValue('body', error.message);
         }
-    
-        setCoverImage(coverImageF);
-        const form = new FormData();
-        form.append('image', coverImageF.file);
-        createImage(form)
-            .then(resImg => {
-                setCoverImage(pre => (
-                    {...pre, isUploaded: 0, source: resImg.id}
-                ))
-                formik.setFieldValue('coverImage', resImg.id);
-            })
-            .catch(_e => {
-                toast({title: 'Upload failed', description: 'file is not uploaded', type: 'error'});
-                formik.setErrors('coverImage', 'file is must');
-                setCoverImage(pre => (
-                    {...pre, isUploaded: 1}
-                ))
-            })
-    }, [coverImageF]);
+        if(isLoading) {
+            formik.setFieldValue('body', 'Loading....bro... wait');
+        }
+        if(data) {
+            formik.setFieldValue('body', data.body);
+        }
+    }, [data, error, isLoading]);
+
+
 
     useEffect(() => {
         setExtraImages(pre => [...pre, ...extraImagesF]);
@@ -89,82 +83,13 @@ export const AddPost = () => {
         <section className="container mx-auto flex gap-1 flex flex-col justify-center pt-10">
             <form onSubmit={formik.handleSubmit}>
                 <div className="mb-20 p-2 grid grid-rows-4 grid-cols-[10rem_1fr] grid-rows-[auto_auto_auto_auto] gap-4">
-                    <label htmlFor="title">
-                        Title
-                    </label>
-                    <div className="flex flex-col items-stretch gap-3 items-center">
-                        <input
-                            name='title'
-                            id="title"
-                            type="text"
-                            className="px-3 py-2 flex-grow-1 h-10 border-1 border-white rounded"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.title}
-                        />
-                        {formik.errors.title && formik.touched.title && (
-                            <div className="text-red-400 text-right">{formik.errors.title}</div>
-                        )}
-                    </div>
                     {
                         // row one completed
                     }
 
-                    <label htmlFor="description">
-                        Description
-                    </label>
-                    <div className="flex flex-col gap-3" >
-                        <textarea
-                            name="description"
-                            id="description"
-                            type="text"
-                            className="px-3 py-2 flex-grow-1 h-20 border-1 border-white rounded"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.description}
-                        />
-                        {formik.errors.description && formik.touched.description && (
-                            <div className="text-red-400 text-right">{formik.errors.description}</div>
-                        )}
-                    </div>
                     {
                         // row two completed
                     }
-
-                    <label htmlFor="coverImage">
-                        Cover Image
-                    </label>
-                    <div className="flex flex-col gap-3">
-                        <FileField 
-                            className='w-full h-20 outline-1 font-semibold px-2 py-1 rounded-sm hover:bg-gray-300 hover:text-black transition-all duration-100'
-                            id='coverImage'
-                            name='coverImage'
-                            accept='image/*'
-                            onChange={setCoverImageF}
-                            onBlur={formik.handleBlur}
-                        />
-                        {
-                            coverImage && <div className="self-end relative max-w-32 min-w-32"> 
-                                <img src={coverImage.url} className='max-w-32 min-w-32 h-20' />
-                                <div
-                                    className="absolute inset-0 bg-black/60"
-                                >
-                                </div>
-                                {coverImage.isUploaded === undefined && 
-                                    <CgSpinner className='text-3xl absolute animate-spin top-6 left-12' />
-                                }
-                                {coverImage.isUploaded === 0 &&
-                                    <MdOutlineDownloadDone className='text-green-400 text-3xl absolute top-6 left-12' />
-                                }
-                                {coverImage.isUploaded === 1 &&
-                                    <MdOutlineErrorOutline className='text-red-400 text-3xl absolute top-6 left-12' />
-                                }
-                            </div>
-                        }
-                        {formik.errors.coverImage && formik.touched.coverImage && (
-                            <div className="text-red-400 text-right">{formik.errors.coverImage}</div>
-                        )}
-                    </div>
                     {
                         // 3
                     }

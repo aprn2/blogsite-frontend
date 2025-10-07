@@ -1,2 +1,11 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+body .w-md-editor-text-pre > code,
+body .w-md-editor-text-input {
+}
+
+body .w-md-editor-toolbar svg {
+    width: 20px !important;
+    height: 20px !important;
+}

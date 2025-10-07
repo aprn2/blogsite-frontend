@@ -1,12 +1,10 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import FormErrorMessage from "./FormErrorMessage";
 import { createUserValidator } from "../utils/validators";
 import { signUp } from "../utils/apiCalls";
 import toast from "../utils/toast";
-import { DiVim } from "react-icons/di";
-import { dimensionValueTypes } from "framer-motion";
 
 export default function Registration() {
 
@@ -152,7 +150,7 @@ export default function Registration() {
             agree: false
         }}
         validationSchema={createUserValidator}
-        onSubmit={async(value, action) => {
+        onSubmit={async(value, _action) => {
             const userDate = {...value};
             delete userDate.agree;
             delete userDate.confirmPassword;

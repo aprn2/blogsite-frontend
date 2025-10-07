@@ -2,22 +2,19 @@ import { useQuery } from "@tanstack/react-query"
 import PostCard from "./PostCard"
 import PostCardSkeleton from "./PostCardSkeleton"
 import { SearchField } from './SearchField'
-import { getImage, getRecentPosts, searchPost } from "../utils/apiCalls"
+import { getImage, getLikedPosts } from "../utils/apiCalls"
 import { useEffect, useState } from "react"
 import toast from "../utils/toast"
 import dayjs from '../utils/dayjsUtils';
 import { useAppContext } from "./AppContext"
 
-export const Home = () => {
+export const Liked = () => {
 
     const appState = useAppContext();
 
-    // show recent post or search
-    const [searchTerm, setSearchTerm] = useState('');
-
-    const {data, error, isFetching, refetch} = useQuery({
-        queryKey: ['post'],
-        queryFn: ! searchTerm ? getRecentPosts : () => searchPost(searchTerm), 
+    const {data, error, isFetching} = useQuery({
+        queryKey: ['likedPosts'],
+        queryFn: getLikedPosts 
     })
 
     const [imagesUrl, setImagesUrl] = useState(new Map());
@@ -65,7 +62,6 @@ export const Home = () => {
     }
 
     return (<div className="container mx-auto"> 
-        <SearchField value={searchTerm} onChange={setSearchTerm} onSearch={refetch} />
         <div
             className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >

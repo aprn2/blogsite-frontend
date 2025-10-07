@@ -3,7 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 import { useAppContext } from "./AppContext"
 import { NavLink } from 'react-router';
-import { LoggedOutHeaderLinks, userHeaderLinks } from '../data/headerLinks';
+import { adminHeaderLinks, LoggedOutHeaderLinks, userHeaderLinks } from '../data/headerLinks';
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
@@ -17,19 +17,21 @@ export default function HeaderNav() {
     })
 
     let links;
-    if(!appState.userId) {
-        links = LoggedOutHeaderLinks;
-    }else if(! appState.isAdmin) {
+    if(appState.isAdmin) {
+        links = adminHeaderLinks;
+    }else if(appState.userId) {
         links = userHeaderLinks;
+    }else {
+        links = LoggedOutHeaderLinks;
     }
 
     return <nav className=''>
-        <ul className='text-lg sm:text-xl flex justify-around gap-3 min-w-40'>
+        <ul className='text-lg sm:text-xl flex gap-10 justify-around gap-3 min-w-40'>
             {isDesktop ? links.map((link) =>
                 <li key={link.text} >
                     <NavLink
                         to={link.link}
-                        className={({isActive}) => `${isActive ? 'text-cyan-800' : ''} hover:underline hover:text-blue-600 transition-colors duration-200`}
+                        className={({isActive}) => `${isActive ? 'text-cyan-700' : ''} hover:underline hover:text-red-500 transition-colors duration-200`}
                     >
                         {link.text}
                     </NavLink>

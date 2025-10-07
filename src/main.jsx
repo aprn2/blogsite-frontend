@@ -11,7 +11,6 @@ import PostLayout from './components/PostLayout.jsx';
 import ToastBoard from './components/ToastBoard.jsx';
 import { AppStateProvider } from './components/AppContext.jsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Home } from './components/Home.jsx';
 import { HomeLayout } from './components/HomeLayout.jsx';
 import { AdminLayout } from './components/AdminLayout.jsx';
@@ -75,7 +74,6 @@ createRoot(document.getElementById('root')).render(
                 </BrowserRouter>
                 <ToastBoard />
             </AppStateProvider>
-            <ReactQueryDevtools />
         </QueryClientProvider>
     </StrictMode>,
 )

@@ -54,4 +54,4 @@ execute this command:
 npm run build
 ```
 
-now you can serve the contents of `/build` using a web server of your choise.
+now you can serve the contents of `/dist` using a web server of your choise.

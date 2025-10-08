@@ -27,6 +27,15 @@ export default function Login() {
         onSubmit={async (value, action) => {
             try{
                 const user = await login(value);
+
+                // ethu ethuko, cors erro  time user is undefined, to fix :(
+                if(! user) {
+                    const e = new Error();
+                    e.name = 'something went wrong'
+                    e.message = ':('
+                    throw e;
+                }
+
                 userCxtStore.set({
                     userId: user.id,
                     userName: user.userName,

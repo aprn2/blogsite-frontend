@@ -157,7 +157,7 @@ export default function Registration() {
             try{
                 const res = await signUp(userDate);
                 toast({title: 'success', description: 'user created', type: 'neutral'});
-                navigate('/auth/login');
+                navigate('/login');
             }catch(e) {
                 toast({title: e.name, description: e.message, type: 'error'});
             }

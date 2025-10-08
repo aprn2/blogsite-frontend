@@ -17,7 +17,6 @@ const axiosClient = axios.create({
     withCredentials: true,
 });
 
-//let token = await getToken().then(data => data.accessToken);
 let tokenRefetching = false;
 const pending401Requests = [];
 
@@ -40,7 +39,9 @@ axiosClient.interceptors.response.use(
             tokenRefetching = true;
 
             try{
-                let token = await axiosClient.get('/token');
+                // Note use axios not axiosClient, if used and if /token response is 401,
+                // the response promise is pushed into pending401Requests and never be fulfilled
+                let token = await axios.get('/token');
                 accessToken = token.data.accessToken;
                 for(const req of pending401Requests) {
                     try{
@@ -51,8 +52,9 @@ axiosClient.interceptors.response.use(
                     }
                 }
             }catch(e) {
+                // token endpoint returning 401, means out cookie is expired
+                // call to logout
                 if(e.response.status === 401) {
-                    // action to logout
                     userCxtStore.set(undefined);
                 }
                 for(const req of pending401Requests) {

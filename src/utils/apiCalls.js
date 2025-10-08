@@ -196,7 +196,6 @@ export async function isLiked(postId) {
                 postId: postId
             }
         })
-        console.log(res.data)
         return res.data;
     }catch(e) {
         throwApproprietError(e);

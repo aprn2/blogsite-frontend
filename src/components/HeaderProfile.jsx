@@ -37,6 +37,8 @@ export default function HeaderProfile() {
                             appState.setIsAdmin(undefined);
                             appState.setUserName(undefined);
                             appState.setToken(undefined);
+                            appState.setEmail(undefined);
+                            appState.setDob(undefined);
                         }
                     }}
                 >

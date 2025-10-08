@@ -46,6 +46,8 @@ export default function Login() {
                 appState.setUserId(user.id);
                 appState.setUserName(user.userName);
                 appState.setIsAdmin(user.admin);
+                appState.setDob(user.dob);
+                appState.setEmail(user.email);
                 navigate('/home');
                 toast({title: 'Logged In', type: 'neutral'});
             } catch(e) {

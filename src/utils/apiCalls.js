@@ -41,7 +41,7 @@ axiosClient.interceptors.response.use(
             try{
                 // Note use axios not axiosClient, if used and if /token response is 401,
                 // the response promise is pushed into pending401Requests and never be fulfilled
-                let token = await axios.get('/token');
+                let token = await axios.get(`${baseURL}/token`, {withCredentials: true});
                 accessToken = token.data.accessToken;
                 for(const req of pending401Requests) {
                     try{
